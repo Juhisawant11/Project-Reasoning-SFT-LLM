@@ -2,3 +2,16 @@ __pycache__/
 *.pyc
 eval/outputs/
 eval/completions/
+
+# Large training datasets
+source_data/
+LLaMA-Factory/data/random15k.json
+LLaMA-Factory/data/advanced15k.json
+
+# Model checkpoints and exports
+LLaMA-Factory/saves/
+LLaMA-Factory/exports/
+
+# Training logs
+*.out
+*.err

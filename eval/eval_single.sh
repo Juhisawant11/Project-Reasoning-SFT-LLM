@@ -21,7 +21,8 @@ if command -v module &> /dev/null; then
     module load CUDA/12.6.0
 fi
 
-source activate ${CONDA_ENV:-myenv}
+source "$(conda info --base)/etc/profile.d/conda.sh"
+conda activate "${CONDA_ENV:-reasoning-eval}"
 
 # eval.py loads prompts/data relative to the working directory
 cd "${SLURM_SUBMIT_DIR:-$(dirname "$0")}"
