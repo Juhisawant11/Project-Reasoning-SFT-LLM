@@ -490,3 +490,76 @@ Evaluation Setup:
 |     12   |     8    |  forgottenlight4415/Qwen-2.5-3B-Instruct-SFT-15K-Diverse    |   0.300   |  0.133  |  0.852  |    0.300   |   0.608  |     0.700   |     0.324     |   0.498 |     0.556    |  0.445 |
 |     13   |     11    |  jhjeong99/Qwen2.5-3B-Intstruct_Limopro   |   0.133   |  0.033  |  0.774  |    0.167   |   0.437  |     0.575   |     0.335     |   0.397 |     0.707    | 0.379 |
 |     14   |     9    |  cuong1692001/Qwen2.5-3B-Instruct_15K_Selective    |   0.067   |  0.100  |  0.756  |    0.100   |   0.412  |     0.450   |     0.261     |   0.366 |     0.530    |  0.317 |
+
+---
+
+# Team Implementation and Submission (Fall 2026)
+
+## Project Overview
+
+We investigated supervised fine-tuning of Qwen2.5-3B-Instruct
+using two 15,000-example subsets of AceReason-1.1-SFT.
+
+The experiments compare a Random15K training dataset against
+an Advanced15K dataset.
+
+## Hugging Face Deliverables
+
+| Artifact | Repository |
+|---|---|
+| Random15K dataset | https://huggingface.co/datasets/Juhisawant11/random15k-reasoning-sft |
+| Advanced15K dataset | https://huggingface.co/datasets/Juhisawant11/advanced15k-reasoning-sft |
+| Random15K fine-tuned model | https://huggingface.co/Juhisawant11/qwen2.5-3b-random15k-sft |
+| Advanced15K fine-tuned model | Pending training completion |
+
+## Training Configuration
+
+| Parameter | Value |
+|---|---|
+| Base model | Qwen/Qwen2.5-3B-Instruct |
+| Fine-tuning method | LoRA SFT |
+| Dataset size | 15,000 examples per strategy |
+| Epochs | 2 |
+| Learning rate | 2e-4 |
+| LoRA rank | 8 |
+| LoRA alpha | 16 |
+| Per-device batch size | 2 |
+| Gradient accumulation | 8 |
+| Effective batch size | 16 |
+| Sequence cutoff length | 2048 |
+| Precision | BF16 |
+| LR scheduler | Cosine |
+| Warmup ratio | 0.1 |
+
+## Experiment Status
+
+- Random15K training: completed successfully.
+- Random15K merged model: uploaded to Hugging Face.
+- Advanced15K training: submitted to ARC; awaiting GPU allocation.
+- Baseline AMC evaluation: Accuracy 0.7000; Pass@1 0.4188.
+- Remaining evaluations: awaiting GPU availability.
+
+Detailed results and limitations are documented in
+[results/evaluation_results.md](results/evaluation_results.md).
+
+## Reproducibility
+
+Training configurations:
+- `LLaMA-Factory/examples/train_lora/random15k.yaml`
+- `LLaMA-Factory/examples/train_lora/advanced15k.yaml`
+
+Evaluation scripts:
+- `eval/eval.sh`
+- `eval/eval_single.sh`
+
+Both datasets are available through the Hugging Face links above.
+
+## Limitations
+
+ARC GPU queue delays prevented completion of all planned experiments
+before this documentation was prepared. In addition, initial evaluation
+attempts encountered a missing `ninja` executable in the batch
+environment. The evaluation script was updated to address this issue,
+but successful execution after the fix remains to be confirmed.
+
+The exact Advanced15K selection algorithm is not yet documented.
