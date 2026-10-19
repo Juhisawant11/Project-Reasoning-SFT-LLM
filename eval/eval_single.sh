@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH="/home/juhis/.conda/envs/reasoning-eval/bin:$PATH"
 
 #-- SLURM Job Directives --#
 #SBATCH --nodes=1                   # Request a single node
@@ -7,7 +8,7 @@
 #SBATCH --partition=h200_normal_q   # Specify the GPU partition: h200_normal_q, a100_normal_q on Tinkercliffs | a30_normal_q on Falcon
 #SBATCH --account=tml_2026          # Your class-specific account
 #SBATCH --gres=gpu:1                # Request 1 GPU
-
+set -euo pipefail
 # Evaluate a model on a single dataset.
 # Usage: sbatch eval_single.sh <dataset>        e.g. sbatch eval_single.sh amc
 #        MODEL=/path/to/your/model sbatch eval_single.sh amc
@@ -21,9 +22,12 @@ if command -v module &> /dev/null; then
     module load CUDA/12.6.0
 fi
 
-source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate "${CONDA_ENV:-reasoning-eval}"
+# Use the evaluation environment's Python directly
+EVAL_PYTHON="/home/juhis/.conda/envs/reasoning-eval/bin/python"
 
+echo "Python executable: $EVAL_PYTHON"
+
+"$EVAL_PYTHON" -c "import torch, transformers, vllm; print('Evaluation dependencies OK')"
 # eval.py loads prompts/data relative to the working directory
 cd "${SLURM_SUBMIT_DIR:-$(dirname "$0")}"
 
@@ -41,7 +45,7 @@ GPU_MEM_UTIL=${GPU_MEM_UTIL:-0.96}          # lower (e.g. 0.5) if the GPU is sha
 mkdir -p "$OUTPUT_DIR"
 
 # Leaderboard setup: temperature 0.6, top-p 0.95, 8 samples, 32768 max tokens
-python eval.py \
+"$EVAL_PYTHON" eval.py \
 --model_name_or_path "$MODEL" \
 --data_name "$DATA" \
 --prompt_type "qwen-instruct" \

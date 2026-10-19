@@ -21,7 +21,7 @@ cd ~/Project-Reasoning-SFT-LLM/LLaMA-Factory
 echo "GPU information:"
 nvidia-smi
 
-echo "Starting Random15k fine-tuning..."
+echo "Starting Advanced15k fine-tuning..."
 
 llamafactory-cli train examples/train_lora/advanced15k.yaml
 
