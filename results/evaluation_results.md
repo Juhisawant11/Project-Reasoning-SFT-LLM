@@ -9,17 +9,46 @@
 - Maximum generation tokens: 32768
 - System prompt: Please reason step by step, and put your final answer within \boxed{}.
 
-## Verified Baseline Results
+## Baseline Evaluation Results
 
-| Benchmark | Accuracy (Pass@8) | Pass@1 |
-|---|---:|---:|
-| AMC 2023 | 0.7000 | 0.4188 |
+The following results were provided by a team member for the original
+Qwen/Qwen2.5-3B-Instruct model. The AMC result was independently
+verified using the local ARC evaluation log on October 19, 2026.
 
-The AMC baseline evaluation completed successfully on October 19, 2026.
+Evaluation uses temperature 0.6, top-p 0.95, eight samples per
+question, and a maximum generation length of 32768 tokens.
+
+| Benchmark | Problems | Acc (Pass@8) | Pass@1 | Fall 2025 Reference (Pass@8) |
+|---|---:|---:|---:|---:|
+| AIME 2024 | 30 | 0.1667 | 0.0833 | 0.200 |
+| MATH-500 | 500 | 0.8640 | 0.6570 | 0.844 |
+| CN Math 2024 | 30 | 0.3667 | 0.1167 | 0.233 |
+| Kaoyan | 199 | 0.5377 | 0.2180 | 0.513 |
+| AMC 2023 | 40 | 0.7000 | 0.4188 | 0.700 |
+| Minerva Math | 272 | 0.4743 | 0.3015 | 0.338 |
+| OlympiadBench | 675 | 0.4993 | 0.2811 | 0.495 |
+| GPQA-Diamond | 198 | 0.7323 | 0.3037 | 0.742 |
+| **Mean (8 benchmarks)** | — | **0.5426** | **0.2975** | **0.508** |
+
+### Baseline Analysis
+
+The team-reported baseline achieved a mean Pass@8 accuracy of
+0.5426 and a mean Pass@1 score of 0.2975.
+
+Performance varied substantially across benchmarks. MATH-500
+achieved the highest Pass@8 accuracy (0.8640), while AIME 2024
+achieved the lowest (0.1667).
+
+The mean Pass@8 accuracy was 0.0346 higher than the Fall 2025
+reference baseline (0.508). These results are not necessarily
+directly comparable because the evaluation environments may differ.
+
+The full set of baseline results was supplied by a team member;
+only AMC was independently reproduced in the local ARC logs.
 
 ## Pending Evaluations
 
-- Remaining baseline benchmarks: pending ARC GPU availability.
+- Team-reported baseline results are available for all eight benchmarks; local reproduction of seven benchmarks remains pending.
 - Random15K fine-tuned model: evaluation jobs submitted.
 - Advanced15K fine-tuned model: training queued; evaluation depends on training and model merging.
 

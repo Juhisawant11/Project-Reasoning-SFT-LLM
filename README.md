@@ -536,7 +536,10 @@ an Advanced15K dataset.
 - Random15K training: completed successfully.
 - Random15K merged model: uploaded to Hugging Face.
 - Advanced15K training: submitted to ARC; awaiting GPU allocation.
-- Baseline AMC evaluation: Accuracy 0.7000; Pass@1 0.4188.
+- Team-reported baseline evaluation: all eight benchmarks available.
+- Mean baseline Pass@8 accuracy: 0.5426.
+- Mean baseline Pass@1: 0.2975.
+- AMC baseline independently verified on ARC: Acc 0.7000; Pass@1 0.4188.
 - Remaining evaluations: awaiting GPU availability.
 
 Detailed results and limitations are documented in
