@@ -565,7 +565,6 @@ attempts encountered a missing `ninja` executable in the batch
 environment. The evaluation script was updated to address this issue,
 but successful execution after the fix remains to be confirmed.
 
-The exact Advanced15K selection algorithm is not yet documented.
 
 ---
 
