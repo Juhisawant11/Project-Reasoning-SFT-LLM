@@ -566,3 +566,61 @@ environment. The evaluation script was updated to address this issue,
 but successful execution after the fix remains to be confirmed.
 
 The exact Advanced15K selection algorithm is not yet documented.
+
+---
+
+## Advanced15K Data Selection Methodology
+
+### Strategy: Difficulty-Aware Sampling
+
+We implemented a difficulty-aware sampling strategy using solution
+length as a computationally inexpensive proxy for reasoning complexity.
+
+The objective was to prioritize examples containing substantial
+reasoning traces while avoiding extremely short or excessively long
+solutions.
+
+### Selection Procedure
+
+1. Load the AceReason-1.1-SFT subset containing 100,000 examples.
+2. Calculate solution length using `len(output.split())`.
+3. Sort all examples by solution length in ascending order.
+4. Retain examples ranked between the 40th and 90th percentiles.
+5. Randomly sample 15,000 examples from the resulting 50,000-example pool.
+6. Use random seed 42 for reproducibility.
+7. Format the selected examples for LLaMA-Factory.
+
+The exact implementation is available in
+[`scripts/create_advanced15k.py`](scripts/create_advanced15k.py).
+
+### Selection Parameters
+
+| Parameter | Value |
+|---|---|
+| Original dataset size | 100,000 |
+| Difficulty proxy | Solution length in whitespace-separated words |
+| Lower percentile | 40th |
+| Upper percentile | 90th |
+| Candidate pool size | 50,000 |
+| Selected examples | 15,000 |
+| Random seed | 42 |
+
+### Dataset Comparison
+
+| Metric | Random15K | Advanced15K |
+|---|---:|---:|
+| Average solution length (characters) | 22,661.96 | 27,702.37 |
+| Median solution length (characters) | 19,327 | 26,378 |
+| Solutions >= 10,000 characters | 77.05% | 100.00% |
+| Solutions >= 20,000 characters | 48.28% | 77.25% |
+| Solutions >= 30,000 characters | 28.84% | 37.57% |
+| Solutions >= 40,000 characters | 15.33% | 10.35% |
+
+Advanced15K emphasizes moderately long to long reasoning traces
+compared with Random15K.
+
+Solution length is only a proxy for reasoning complexity. Longer
+solutions are not necessarily more difficult or more accurate.
+
+Additionally, the training sequence cutoff was 2,048 tokens,
+which may truncate long reasoning traces.

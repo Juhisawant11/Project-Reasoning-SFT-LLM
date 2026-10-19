@@ -120,3 +120,27 @@ Advanced15K training remains queued on ARC.
 Consequently, the available results do not yet establish whether
 reasoning-length-based curation improves benchmark performance
 relative to random sampling or the original model.
+
+## Advanced15K Selection Methodology
+
+Advanced15K was generated using difficulty-aware sampling based on
+solution length.
+
+For each of the 100,000 AceReason-1.1-SFT examples, solution length
+was measured using the number of whitespace-separated words.
+
+Examples were sorted by solution length, and those ranked between
+the 40th and 90th percentiles were retained.
+
+From this 50,000-example candidate pool, 15,000 examples were
+randomly sampled using seed 42.
+
+This strategy was designed to prioritize substantial reasoning
+traces while avoiding extremely short and excessively long solutions.
+
+The implementation is available at
+`scripts/create_advanced15k.py`.
+
+The method does not directly measure problem difficulty or
+solution correctness. Its effectiveness must be evaluated against
+the Random15K baseline.
